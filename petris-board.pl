@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-board.pl,v 1.3 1999/08/08 15:46:59 root Exp root $
+# $Id: petris-board.pl,v 1.3 1999/08/08 15:46:59 root Exp $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the GPL.

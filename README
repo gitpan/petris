@@ -35,6 +35,7 @@ The game was developed under Debian GNU/Linux 2.0.
 README
 Tk/MesgBox.pm
 debian-menu
+tk-text.pl
 petris
 petris-action.pl
 petris-board-commands.pl
@@ -127,6 +128,9 @@ update-menus
             .petrisrc to be more conventional.
 
 1999/08/08  Changed licence to GPL.
+
+1999/08/28  Added `left handed' keystrokes; changed help into pod and now use
+            my standard render pod routines from tk-text.pl.
 
 
 6. COPYRIGHT

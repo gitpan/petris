@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-consts.pl,v 1.7 1999/08/08 15:46:59 root Exp root $
+# $Id: petris-consts.pl,v 1.8 1999/08/28 21:46:10 root Exp $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -54,6 +54,8 @@ $Const{ROW_HIGHLIGHT_COLOUR}        = '#000000' ; # black
 $Const{USE_SPECIAL_SHAPES}          = 1 ;
 $Const{USE_SPECIAL_LAYOUTS}         = 1 ;
 $Const{USE_RANDOM_LAYOUTS}          = 1 ;
+
+$Const{HELP_FILE}                   = "$RealBin/petris-help.pod" ;
 
 
 1 ;

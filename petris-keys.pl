@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-keys.pl,v 1.3 1999/08/08 15:46:59 root Exp root $
+# $Id: petris-keys.pl,v 1.4 1999/08/28 21:46:10 root Exp $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -42,12 +42,16 @@ $Win->bind( '<q>',         \&button::quit ) ;
 
 $Win->bind( '<Up>',        \&action::rotate ) ;
 $Win->bind( '<k>',         \&action::rotate ) ;     # vi
+$Win->bind( '<f>',         \&action::rotate ) ;     # left hand
 $Win->bind( '<Down>',      \&action::drop ) ;
 $Win->bind( '<j>',         \&action::drop ) ;       # vi
+$Win->bind( '<b>',         \&action::drop ) ;       # left hand
 $Win->bind( '<Left>',      \&action::move_left ) ;
 $Win->bind( '<h>',         \&action::move_left ) ;  # vi
+$Win->bind( '<d>',         \&action::move_left ) ;  # left hand
 $Win->bind( '<Right>',     \&action::move_right ) ;
 $Win->bind( '<l>',         \&action::move_right ) ; # vi
+$Win->bind( '<g>',         \&action::move_right ) ; # left hand
 
 
 1 ;
