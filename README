@@ -11,6 +11,8 @@ Petris
 
 1. SYNOPSIS
 
+Standard tetris clone with extra options.
+
 This is the classic version of tetris. It has some enhancements (which can be
 switched off), including patterns (layouts) of predetermined blocks already on
 the board, changeable board sizes, changeable speed and extra shapes. You can
@@ -25,6 +27,8 @@ Perl 5.004
 Tk 400.202
 Linux/X windows or Win32
 
+MesgBox.pm (available from wherever you got petris)
+
 The game was developed under Debian GNU/Linux 2.0.
 
 ~60K disk space.
@@ -33,7 +37,6 @@ The game was developed under Debian GNU/Linux 2.0.
 3. FILES
 
 README
-Tk/MesgBox.pm
 debian-menu
 tk-text.pl
 petris
@@ -131,6 +134,10 @@ update-menus
 
 1999/08/28  Added `left handed' keystrokes; changed help into pod and now use
             my standard render pod routines from tk-text.pl.
+
+1999/09/06  Removed MesgBox.pm at Lupe Christoph's (CPAN) request. You must
+            pick this module up separately now (although old versions will
+            work fine if you've already got one).
 
 
 6. COPYRIGHT

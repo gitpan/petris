@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris,v 1.15 1999/08/28 21:46:10 root Exp $
+# $Id: petris,v 1.16 1999/09/06 19:04:38 root Exp $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -26,7 +26,7 @@ use vars qw( $VERSION $DEBUG
              $Win 
              %Buttons %Board  %Block ) ; 
 
-$VERSION = '1.11' ; # Application version.
+$VERSION = '1.13' ; # Application version.
 $DEBUG   =  0 ;
 
 my $DieOnWarn      = 1 ;
