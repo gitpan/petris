@@ -139,6 +139,10 @@ update-menus
             pick this module up separately now (although old versions will
             work fine if you've already got one).
 
+1999/09/11  Now use an improved algorithm to ensure (I hope) that new pieces
+            are always a different colour from the background (previously they
+            would occassionally be `invisible').
+
 
 6. COPYRIGHT
 

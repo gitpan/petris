@@ -1,12 +1,10 @@
 #!/usr/bin/perl -w
 
-# $Id: petris,v 1.16 1999/09/06 19:04:38 root Exp $
+# $Id: petris,v 1.18 1999/09/11 15:41:50 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the GPL.
 
-# TODO Random colour bug: I want random colours, but not ones too similar to
-#      board, outline or eliminate row highlight colours.
 # TODO Fix colour bug - some pieces start off multi-coloured - this happens
 #      sometimes after clearing a row.
 
@@ -26,7 +24,7 @@ use vars qw( $VERSION $DEBUG
              $Win 
              %Buttons %Board  %Block ) ; 
 
-$VERSION = '1.13' ; # Application version.
+$VERSION = '1.14' ; # Application version.
 $DEBUG   =  0 ;
 
 my $DieOnWarn      = 1 ;
@@ -151,32 +149,35 @@ sub set_consts {
 sub get_colour {
     
     # Pick out the hex colour values.
-    $Const{BOARD_BACKGROUND_COLOUR} =~ /([0-9A-Fa-f])+/ ; 
-    my $background = hex( $1 ) ;
+    my( $red1, $green1, $blue1 ) = 
+        $Const{BOARD_BACKGROUND_COLOUR} =~ /([0-9A-Fa-f]){2}/og ; 
+    $red1   = hex $red1 ;
+    $green1 = hex $green1 ;
+    $blue1  = hex $blue1 ;
+    # Brightness calculation taken from Mastering Algorithms with Perl.
+    my $brightness = ( $red1   * 0.118 ) + 
+                     ( $green1 * 0.231 ) + 
+                     ( $blue1  * 0.043 ) ;
 
-    $Const{BOARD_OUTLINE_COLOUR} =~ /([0-9A-Fa-f])+/ ; 
-    my $outline = hex( $1 ) ;
-
-    $Const{ROW_HIGHLIGHT_COLOUR} =~ /([0-9A-Fa-f])+/ ;
-    my $highlight = hex( $1 ) ;
-
-    my $colour ;
+    my( $red2, $green2, $blue2 ) ; 
 
     while( 1 ) {
-        $colour = int( rand( 0xFFFFFF ) ) ;
-        # Don't use colours which are too similar to board colours.
-        # OK, these don't actually work... if someone understands how to
-        # achieve this and can explain it to me...
-        next if abs( $background - $colour ) < 0xFFF ;
-        next if abs( $outline    - $colour ) < 0xFFF ;
-        next if abs( $highlight  - $colour ) < 0xFFF ;
-        # Too near to black which we use to highlight cleared rows. This
-        # doesn't work either of course...
-        next if $colour < 0xFF ; 
-        last ;
+        # We don't want the random colour to be too close to the background
+        # colour or it will be `invisible'.
+        $red2   = int( rand( 0xFF ) ) ;
+        $green2 = int( rand( 0xFF ) ) ;
+        $blue2  = int( rand( 0xFF ) ) ;
+        my $newbrightness = ( $red2   * 0.118 ) + 
+                            ( $green2 * 0.231 ) + 
+                            ( $blue2  * 0.043 ) ;
+
+        last if abs( $brightness - $newbrightness ) > 10 and
+                ( ( abs( $red1   - $red2 ) + 
+                    abs( $green1 - $green2 ) +
+                    abs( $blue1  - $blue2 ) ) > 10 ) ;
     }
 
-    $colour = sprintf "#%06X", $colour ;
+    sprintf "#%02X%02X%02X", $red2, $green2, $blue2 ;
 }
 
 
