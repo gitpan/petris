@@ -21,9 +21,6 @@ On-line help is provided - start up the game and click the Help button or press 
 
 2. REQUIREMENTS
 
-You will need Tk::MesgBox.pm which is not included in the petris .tar.gz,
-but which is available from the same directory on CPAN. 
-
 Perl 5.004
 Tk 400.202
 Linux/X windows or Win32
@@ -35,10 +32,13 @@ The game was developed under Debian GNU/Linux 2.0.
 
 3. FILES
 
+RCS
 README
+Tk/MesgBox.pm
 debian-menu
 petris
 petris-action.pl
+petris-board-commands.pl
 petris-board.pl
 petris-button-commands.pl
 petris-buttons.pl
@@ -81,12 +81,6 @@ tar xvf petris-VERSION.tar
 # Change to the petris directory.
 cd petris
 
-# Move the library file (obtained separately) into the Tk directory.
-# (The -u option ensures we don't overwrite newer with older.)
-# Note that you could move this to any Tk directory in any lib directory in
-# Perl's %INC path, or in /usr/games/petris/Tk.
-mv -u MesgBox.pm /usr/lib/perl5/Tk
-
 # Make sure petris is executable.
 chmod a+x petris
 
@@ -123,6 +117,9 @@ update-menus
             layouts between predefined ones if using layouts.
 
 1999/03/18  Minor documentation changes to suit CPAN scripts area.
+
+1999/04/21  Included MesgBox.pm to make the .tar.gz file complete.
+
 
 6. COPYRIGHT
 
