@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-action.pl,v 1.6 1999/02/23 20:24:56 root Exp $
+# $Id: petris-action.pl,v 1.7 1999/03/13 12:49:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -278,8 +278,10 @@ sub action::new_board {
     my @layout = () ;
 
     # Layouts alternate between random and specified; the specified layouts
-    # are displayed in order. Random occurs 50% of the time.
-    if( int( rand( $Const{LAYOUT_MAX} * 2 ) ) <= $Const{LAYOUT_MAX} ) {
+    # are displayed in order. Random occurs 50% of the time unless we don't
+    # want random layouts.
+    if( ( not $Opt{USE_RANDOM_LAYOUTS} ) or 
+        ( int( rand( $Const{LAYOUT_MAX} * 2 ) ) <= $Const{LAYOUT_MAX} ) ) {
         @layout = @{$Const{"LAYOUT_" . $Const{LAYOUT}}};
         $Const{LAYOUT} = ++$Const{LAYOUT} % ( $Const{LAYOUT_MAX} + 1 ) ;
     }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-opts.pl,v 1.1 1999/01/16 01:05:39 root Exp $
+# $Id: petris-opts.pl,v 1.2 1999/03/13 12:49:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -22,6 +22,7 @@ $Opt{HIGH_SCORE}          = 4662 ;
 
 $Opt{USE_SPECIAL_SHAPES}  = $Const{USE_SPECIAL_SHAPES} ;
 $Opt{USE_SPECIAL_LAYOUTS} = $Const{USE_SPECIAL_LAYOUTS} ;
+$Opt{USE_RANDOM_LAYOUTS}  = $Const{USE_RANDOM_LAYOUTS} ;
 
 
 sub opts_check {

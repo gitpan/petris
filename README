@@ -1,4 +1,4 @@
-README for petris-1.05.tar.gz
+Petris
 
 1. SYNOPSIS
 2. REQUIREMENTS
@@ -21,13 +21,16 @@ On-line help is provided - start up the game and click the Help button or press 
 
 2. REQUIREMENTS
 
+You will need Tk::MesgBox.pm which is not included in the petris .tar.gz,
+but which is available from the same directory on CPAN. 
+
 Perl 5.004
 Tk 400.202
 Linux/X windows or Win32
 
 The game was developed under Debian GNU/Linux 2.0.
 
-60K disk space.
+~60K disk space.
 
 
 3. FILES
@@ -63,17 +66,17 @@ mkdir /usr/games
 mkdir /usr/games/petris
 
 # Copy the tar.gz to the game directory.
-cp petris-1.05.tar.gz /usr/games
+cp petris-VERSION.tar.gz /usr/games
 
 # Change to the games directory.
 cd /usr/games
 
 # Unpack the archive using method A or B:
 # Method A for those using GNU tar
-tar xvfz petris-1.05.tar.gz
+tar xvfz petris-VERSION.tar.gz
 # Method B for those not using GNU tar
-gunzip petris-1.05.tar.gz
-tar xvf petris-1.05.tar
+gunzip petris-VERSION.tar.gz
+tar xvf petris-VERSION.tar
 
 # Change to the petris directory.
 cd petris
@@ -87,7 +90,7 @@ mv -u MesgBox.pm /usr/lib/perl5/Tk
 # Make sure petris is executable.
 chmod a+x petris
 
-# If you want petris to appear on your X menu do the following:
+# Optional. If you want petris to appear on your X menu do the following:
 cp debian-menu /etc/menu/petris
 update-menus
 
@@ -115,6 +118,9 @@ update-menus
 1999/02/23  Changed to use MesgBox dialog - should now work properly under
             Windows.
 
+1999/03/13  Minor tidying to Help and Options dialogues; added the option
+            which allows you to decide whether or not to intersperse random
+            layouts between predefined ones if using layouts.
 
 6. COPYRIGHT
 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-help.pl,v 1.3 1999/01/31 12:26:01 root Exp $
+# $Id: petris-help.pl,v 1.4 1999/03/13 12:49:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -20,9 +20,11 @@ sub help {
     # Set up the help window and some bindings to close it.
     $HelpWin = $Win->Toplevel() ; 
     $HelpWin->title( 'Petris Help' ) ;
+    $HelpWin->protocol( "WM_DELETE_WINDOW", \&help::close ) ;
     $HelpWin->bind( '<q>',         \&help::close ) ;
     $HelpWin->bind( '<Alt-q>',     \&help::close ) ;
     $HelpWin->bind( '<Control-q>', \&help::close ) ;
+    $HelpWin->bind( '<Escape>',    \&help::close ) ;
 
     # Set up the text widget.
     $TextBox = $HelpWin->Scrolled( 'Text', 
@@ -32,6 +34,9 @@ sub help {
                     -width      => 80, 
                     -height     => 40,
                     )->pack( -fill => 'both', -expand => 'y' ) ;
+    my $text = $TextBox->Subwidget( 'text' ) ;
+    $text->configure( -takefocus => 1 ) ;
+    $text->focus ;
 
     &help::text_tags ;
 
@@ -40,20 +45,16 @@ sub help {
     &help::title( "Petris Help\n" ) ;
 
     &help::body( "\n(Press " ) ;
+    &help::code( "<Escape>" ) ;
+    &help::body( " or " ) ;
     &help::code( "q" ) ;
     &help::body( " to close this help window, " ) ; 
 
-    &help::body( " and scroll using the scrollbar.)\n" ) ; 
-=pod    
-    &help::code( "[UP ARROW]" ) ; 
-    &help::body( " or " ) ; 
-    &help::code( "[DOWN ARROW]" ) ; 
-    &help::body( ", to scroll by line and " ) ; 
-    &help::code( "[PAGE UP]" ) ; 
-    &help::body( " or " ) ; 
-    &help::code( "[PAGE DOWN]" ) ; 
-    &help::body( ", to scroll by screen.)\n" ) ; 
-=cut    
+    &help::body( " and scroll using the scrollbar, arrow keys or " ) ;
+    &help::code( "<Page Up>" ) ;
+    &help::body( " or " ) ;
+    &help::code( "<Page Down>" ) ;
+    &help::body( ".)\n" ) ; 
 
     &help::heading( "\nAim\n\n", 'heading' ) ;
     &help::body( 
@@ -120,6 +121,7 @@ sub help {
 . " Paszhitnov, Dmitry Pavlovsky and Vadim Gerasimov."
     ) ;
 
+    $text->configure( -state => 'disabled' ) ;
     &window_centre( $HelpWin ) ;
 }
 

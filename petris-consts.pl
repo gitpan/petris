@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-consts.pl,v 1.4 1999/02/02 18:51:56 root Exp $
+# $Id: petris-consts.pl,v 1.5 1999/03/13 12:49:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -53,6 +53,7 @@ $Const{ROW_HIGHLIGHT_COLOUR}        = '#000000' ; # black
 
 $Const{USE_SPECIAL_SHAPES}          = 1 ;
 $Const{USE_SPECIAL_LAYOUTS}         = 1 ;
+$Const{USE_RANDOM_LAYOUTS}          = 1 ;
 
 
 1 ;

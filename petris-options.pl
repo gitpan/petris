@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-options.pl,v 1.6 1999/01/31 12:26:01 root Exp $
+# $Id: petris-options.pl,v 1.7 1999/03/13 12:49:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -19,6 +19,7 @@ my( $Interval,
     $BoardSquareLength, 
     $UseSpecialShapes,
     $UseSpecialLayouts,
+    $UseRandomLayouts,
     $SpeedUp,
     ) ;
 
@@ -34,10 +35,12 @@ sub options {
     $BoardSquareLength = $Opt{BOARD_SQUARE_LENGTH} ;
     $UseSpecialShapes  = $Opt{USE_SPECIAL_SHAPES} ;
     $UseSpecialLayouts = $Opt{USE_SPECIAL_LAYOUTS} ;
+    $UseRandomLayouts  = $Opt{USE_RANDOM_LAYOUTS} ;
 
     # Set up the options window. 
     $OptionsWin = $Win->Toplevel() ;
     $OptionsWin->title( 'Petris Options' ) ;
+    $OptionsWin->protocol( "WM_DELETE_WINDOW", [ \&options::close, 0 ] ) ;
 
     &options::key_bindings ;
 
@@ -71,40 +74,49 @@ sub options {
 
     # Special shapes checkbox.
     $OptionsWin->Checkbutton(
-        -text     => 'Use extra shapes',
+        -text     => 'Extra shapes?',
         -variable => \$UseSpecialShapes,
-        )->grid( -row => 4, -column => 3, -columnspan => 2, -sticky => 'w' ) ;
-    
+        )->grid( -row => 4, -column => 3, -columnspan => 1, -sticky => 'w' ) ;
+
     # Special layouts checkbox.
     $OptionsWin->Checkbutton(
-        -text     => 'Use layouts',
+        -text     => 'Layouts?',
         -variable => \$UseSpecialLayouts,
-        )->grid( -row => 4, -column => 5, -columnspan => 2, -sticky => 'w' ) ;
+        )->grid( -row => 4, -column => 4, -columnspan => 1, -sticky => 'w' ) ;
 
- 
+    # Random layouts checkbox.
+    $OptionsWin->Checkbutton(
+        -text     => 'Random Layouts?',
+        -variable => \$UseRandomLayouts,
+        )->grid( -row => 4, -column => 5, -columnspan => 1, -sticky => 'w' ) ;
+
+
+    my $Frame = $OptionsWin->Frame()->
+                grid( -row => 5, -column => 3, -columnspan => 3 ) ;
+
     # Save button.
-    $OptionsWin->Button(
+    $Frame->Button(
         -text      => 'Save',
         -underline => 0,
         -width     => $Const{BUTTON_WIDTH},
         -command   => [ \&options::close, 1 ],
-        )->grid( -row => 5, -column => 3, -sticky => 'w' ) ;
+        )->grid( -row => 1, -column => 1, -sticky => 'w' ) ;
 
     # Cancel button.
-    $OptionsWin->Button(
+    $Frame->Button(
         -text      => 'Cancel',
         -underline => 0,
         -width     => $Const{BUTTON_WIDTH},
         -command   => [ \&options::close, 0 ],
-        )->grid( -row => 5, -column => 4, -sticky => 'w' ) ;
+        )->grid( -row => 1, -column => 2, -sticky => 'w' ) ;
 
     # Defaults button.
-    $OptionsWin->Button(
+    $Frame->Button(
         -text      => 'Defaults',
         -underline => 0,
         -width     => $Const{BUTTON_WIDTH},
         -command   => \&options::defaults,
-        )->grid( -row => 5, -column => 5, -sticky => 'w' ) ;
+        )->grid( -row => 1, -column => 3, -sticky => 'w' ) ;
 
     &window_centre( $OptionsWin ) ;
 }
@@ -139,6 +151,7 @@ sub key_bindings {
     # Save keyboard bindings.
     $OptionsWin->bind( '<Alt-s>',     [ \&options::close, 1 ] ) ;
     $OptionsWin->bind( '<Control-s>', [ \&options::close, 1 ] ) ;
+    $OptionsWin->bind( '<Return>',    [ \&options::close, 1 ] ) ;
 
     # Defaults keyboard bindings.
     $OptionsWin->bind( '<Alt-d>',     \&options::defaults ) ;
@@ -166,6 +179,7 @@ sub close {
         $Opt{BOARD_SQUARE_LENGTH} = $BoardSquareLength ;
         $Opt{USE_SPECIAL_SHAPES}  = $UseSpecialShapes ;
         $Opt{USE_SPECIAL_LAYOUTS} = $UseSpecialLayouts ;
+        $Opt{USE_RANDOM_LAYOUTS}  = $UseRandomLayouts ;
         $Opt{SPEED_UP}            = $SpeedUp ;
 
         &write_opts ;
@@ -190,6 +204,7 @@ sub defaults {
     $BoardSquareLength = $Const{BOARD_SQUARE_LENGTH_DEF} ;
     $UseSpecialShapes  = $Const{USE_SPECIAL_SHAPES} ;
     $UseSpecialLayouts = $Const{USE_SPECIAL_LAYOUTS} ;
+    $UseRandomLayouts  = $Const{USE_RANDOM_LAYOUTS} ;
 }
 
 
