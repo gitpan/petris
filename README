@@ -81,7 +81,7 @@ tar xvf petris-VERSION.tar
 # Change to the petris directory.
 cd petris
 
-# Move the library file into the Tk directory.
+# Move the library file (obtained separately) into the Tk directory.
 # (The -u option ensures we don't overwrite newer with older.)
 # Note that you could move this to any Tk directory in any lib directory in
 # Perl's %INC path, or in /usr/games/petris/Tk.
@@ -121,6 +121,8 @@ update-menus
 1999/03/13  Minor tidying to Help and Options dialogues; added the option
             which allows you to decide whether or not to intersperse random
             layouts between predefined ones if using layouts.
+
+1999/03/18  Minor documentation changes to suit CPAN scripts area.
 
 6. COPYRIGHT
 

@@ -27,7 +27,7 @@ use vars qw( $VERSION $DEBUG
              $Win 
              %Buttons %Board  %Block ) ; 
 
-$VERSION = '1.06' ; # Application version.
+$VERSION = '1.07' ; # Application version.
 $DEBUG   =  0 ;
 
 my $DieOnWarn      = 1 ;
@@ -197,3 +197,42 @@ sub load_library {
 
 __END__
 
+
+=pod SCRIPT CATEGORIES
+
+Games
+
+=pod DESCRIPTION
+
+Perl/Tk Tetris clone with extensions.
+
+=pod PREREQUISITES
+
+Pragmas:
+
+C<strict>
+C<lib>
+
+Modules:
+
+C<Tk>
+C<Tk::MesgBox>
+C<FindBin>
+
+=pod COREQUISITES
+
+None.
+
+=pod OSNAMES
+
+Developed under:
+Linux/X-Windows
+
+Known to run under:
+Win32
+
+=pod LICENSE
+
+Same as Perl
+
+=cut
