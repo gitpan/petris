@@ -1,0 +1,199 @@
+#!/usr/bin/perl -w
+
+# $Id: petris,v 1.9 1999/02/23 20:24:56 root Exp $
+
+# Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
+# May be used/distributed under the same terms as Perl.
+
+# TODO Random colour bug: I want random colours, but not ones too similar to
+#      board, outline or eliminate row highlight colours.
+# TODO Fix colour bug - some pieces start off multi-coloured - this happens
+#      sometimes after clearing a row.
+# TODO Fix the numerous detail bugs in the use interface...
+
+use strict ;
+
+use Tk ;
+use Tk::MesgBox ;
+
+use FindBin qw( $RealBin ) ;
+use lib $RealBin ;
+
+use vars qw( $VERSION $DEBUG
+             $BOARD   $HEAP   $BLOCK
+             $ROTATE  $LEFT   $RIGHT      $DOWN
+             $RUNNING $PAUSED $NOTRUNNING
+             %Global  %Const  %Opt 
+             $Win 
+             %Buttons %Board  %Block ) ; 
+
+$VERSION = '1.05' ; # Application version.
+$DEBUG   =  0 ;
+
+my $DieOnWarn      = 1 ;
+my $WarnInDialogue = 0 ;
+
+
+&initialise ;
+
+MainLoop ;
+
+
+BEGIN {
+    $SIG{__WARN__} = sub {
+        if( $WarnInDialogue and defined $Win ) {
+            my $msg = $Win->MesgBox(
+                            -title => "Petris Error",
+                            -text  => $_[0],
+                            -icon  => 'ERROR',
+                            ) ;
+            $msg->Show ;
+        }
+        else {
+            print STDOUT join( "\n", @_ ), "\n" ;
+        }
+    } ;
+}
+
+
+sub initialise {
+
+    $Global{WROTE_OPTS} = 0 ;
+
+    $Win = MainWindow->new() ;
+    $Win->title( "Petris" ) ; 
+
+    &load_library( "petris-consts.pl" ) ;
+    $Global{STATE} = $NOTRUNNING ;      # Need consts to set this.
+    &load_library( "petris-opts.pl" ) ; # Default.
+    &read_opts ;                        # User.
+    &set_consts ;                       # Need opts to set these.
+    &load_library( "petris-shapes.pl" ) ;
+    &load_library( "petris-layouts.pl" ) ;
+    &load_library( "petris-buttons.pl" ) ;
+    &load_library( "petris-button-commands.pl" ) ;
+    &load_library( "petris-board.pl" ) ;
+    &load_library( "petris-board-commands.pl" ) ;
+    &load_library( "petris-keys.pl" ) ;
+    &load_library( "petris-help.pl" ) ;
+    &load_library( "petris-options.pl" ) ;
+    &load_library( "petris-action.pl" ) ;
+
+    &window_centre( $Win ) ;
+    &board::create ;
+    &button::start ;
+}
+
+
+sub window_centre {
+    my $win = shift ;
+
+    $win->update ;
+    my $x = int( ( $win->screenwidth  - $win->width  ) / 2 ) ;
+    my $y = int( ( $win->screenheight - ( $win->height - 20 ) ) / 2 ) ;
+    $win->geometry( "+$x+$y" ) ;
+}
+
+
+sub read_opts {
+
+    return unless -e $Const{OPTS_FILE} ;
+
+    if( open( IN, $Const{OPTS_FILE} ) ) {
+        local $_ ;
+        while( <IN> ) {
+            next if /^#/ or /^\s*$/ ;
+            chomp ;
+            my( $key, $val ) = /^([^\s:]+)\s*:\s*(.*)/ ;
+            $val = $1 if $val =~ /([^#]+)#/ ;
+            $val =~ s/\s+$// ;
+            $Opt{uc $key} = $val ;
+        }
+        close IN ;
+        &opts_check ;
+    }
+    else {
+        warn "Failed to read $Const{OPTS_FILE}: $!.\n" ;
+    }
+}
+
+
+sub write_opts {
+
+    # Create the games opt directory if it doesn't exist.
+    $Const{OPTS_FILE} =~ m{^(.*)/} ;
+    mkdir $1, 0666 unless -e $1 ;
+
+    if( open( OUT, ">$Const{OPTS_FILE}" ) ) {
+        local $_ ;
+        foreach ( sort keys %Opt ) {
+            print OUT "$_: $Opt{$_}\n" ;
+        }
+        close OUT ;
+    }
+    else {
+        warn "Failed to write $Const{OPTS_FILE}: $!.\n" ;
+    }
+}
+
+
+sub set_consts {
+
+    $Const{BOARD_OFFSET}   = int( ( $Opt{BOARD_SQUARE_LENGTH} - 
+                                    $Const{BOARD_SQUARE_LENGTH_MIN} ) / 2 ) + 1 ; 
+
+    $Const{BOARD_X_LENGTH} = $Opt{BOARD_SQUARES_X} * $Opt{BOARD_SQUARE_LENGTH} ;
+    $Const{BOARD_Y_LENGTH} = $Opt{BOARD_SQUARES_Y} * $Opt{BOARD_SQUARE_LENGTH} ;
+}
+
+
+sub get_colour {
+    
+    # Pick out the hex colour values.
+    $Const{BOARD_BACKGROUND_COLOUR} =~ /([0-9A-Fa-f])+/ ; 
+    my $background = hex( $1 ) ;
+
+    $Const{BOARD_OUTLINE_COLOUR} =~ /([0-9A-Fa-f])+/ ; 
+    my $outline = hex( $1 ) ;
+
+    $Const{ROW_HIGHLIGHT_COLOUR} =~ /([0-9A-Fa-f])+/ ;
+    my $highlight = hex( $1 ) ;
+
+    my $colour ;
+
+    while( 1 ) {
+        $colour = int( rand( 0xFFFFFF ) ) ;
+        # Don't use colours which are too similar to board colours.
+        # OK, these don't actually work... if someone understands how to
+        # achieve this and can explain it to me...
+        next if abs( $background - $colour ) < 0xFFF ;
+        next if abs( $outline    - $colour ) < 0xFFF ;
+        next if abs( $highlight  - $colour ) < 0xFFF ;
+        # Too near to black which we use to highlight cleared rows. This
+        # doesn't work either of course...
+        next if $colour < 0xFF ; 
+        last ;
+    }
+
+    $colour = sprintf "#%06X", $colour ;
+}
+
+
+sub load_library {
+    my $file = shift ;
+    
+    unless( my $return = do "${file}" ) {
+        my $warned = 0 ;
+        warn "Failed to parse $file: $@.\n", 
+            $warned = 1 if $@ ;
+        warn "Failed to do $file: $!\n",     
+            $warned = 1 if not $warned and not defined $return ;
+        warn "Failed to run $file.\n",       
+            $warned = 1 if not $warned and $return ;
+        die "Failed to load $file.\n" if $DieOnWarn ;
+    }
+}
+
+
+__END__
+
