@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-button-commands.pl,v 1.6 1999/02/23 20:24:56 root Exp $
+# $Id: petris-button-commands.pl,v 1.9 1999/08/08 15:46:59 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -142,10 +142,12 @@ sub about {
     my $text = <<__EOT__ ;
 Petris v $VERSION
 
+summer\@chest.ac.uk
+
 Copyright (c) Mark Summerfield 1998/9. 
 All Rights Reserved.
 
-May be used/distributed under the same terms as Perl.
+May be used/distributed under the GPL.
 __EOT__
 
     my $msg = $Win->MesgBox(

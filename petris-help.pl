@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-help.pl,v 1.4 1999/03/13 12:49:37 root Exp $
+# $Id: petris-help.pl,v 1.6 1999/08/08 15:46:59 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -113,9 +113,9 @@ sub help {
     ) ;
 
     &help::heading( "\nCopyright\n\n" ) ;
-    &help::code( "petris v $VERSION.\n\n" ) ;
+    &help::code( "petris v $VERSION.\t\tsummer\@chest.ac.uk\n\n" ) ;
     &help::body( "Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.\n" ) ;
-    &help::body( "Petris may be used/distributed under the same terms as Perl.\n" ) ;
+    &help::body( "Petris may be used/distributed under the GPL.\n" ) ;
     &help::body( 
   "\nPetris is a clone of Tetris which was invented by Alexey"
 . " Paszhitnov, Dmitry Pavlovsky and Vadim Gerasimov."

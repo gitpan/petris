@@ -1,15 +1,14 @@
 #!/usr/bin/perl -w
 
-# $Id: petris,v 1.12 1999/04/21 18:49:12 root Exp root $
+# $Id: petris,v 1.14 1999/08/08 15:46:59 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 # TODO Random colour bug: I want random colours, but not ones too similar to
 #      board, outline or eliminate row highlight colours.
 # TODO Fix colour bug - some pieces start off multi-coloured - this happens
 #      sometimes after clearing a row.
-# TODO Fix the numerous detail bugs in the use interface...
 
 use strict ;
 
@@ -27,7 +26,7 @@ use vars qw( $VERSION $DEBUG
              $Win 
              %Buttons %Board  %Block ) ; 
 
-$VERSION = '1.08' ; # Application version.
+$VERSION = '1.10' ; # Application version.
 $DEBUG   =  0 ;
 
 my $DieOnWarn      = 1 ;
@@ -122,7 +121,7 @@ sub write_opts {
 
     # Create the games opt directory if it doesn't exist.
     $Const{OPTS_FILE} =~ m{^(.*)/} ;
-    mkdir $1, 0666 unless -e $1 ;
+    mkdir $1, 0666 if defined $1 and not -e $1 ;
 
     if( open( OUT, ">$Const{OPTS_FILE}" ) ) {
         local $_ ;
@@ -233,6 +232,6 @@ Win32
 
 =pod LICENSE
 
-Same as Perl
+GPL.
 
 =cut

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-shapes.pl,v 1.1 1999/01/16 01:05:39 root Exp $
+# $Id: petris-shapes.pl,v 1.2 1999/08/08 15:46:59 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 

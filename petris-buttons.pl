@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: petris-buttons.pl,v 1.2 1999/02/01 22:55:12 root Exp $
+# $Id: petris-buttons.pl,v 1.3 1999/08/08 15:46:59 root Exp root $
 
 # Copyright (c) Mark Summerfield 1998/9. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
